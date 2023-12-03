@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:30:26 by hannes            #+#    #+#             */
-/*   Updated: 2023/11/29 16:25:24 by hrother          ###   ########.fr       */
+/*   Updated: 2023/11/30 16:39:18 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <unistd.h>
 # include <sys/wait.h>
 # include <stdio.h>
+# include <fcntl.h>
 # include "libft/libft.h"
 
 typedef struct s_command

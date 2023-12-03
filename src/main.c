@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:28:44 by hannes            #+#    #+#             */
-/*   Updated: 2023/11/29 16:59:41 by hrother          ###   ########.fr       */
+/*   Updated: 2023/12/03 20:19:53 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	print_cmd(t_command cmd)
 	ft_printf("\n");
 }
 
-int    exec_prgr(char *path, char *args[], char *env[], int in, int out)
+int    exec_prgr(char *path, char *args[], char *env[], int in, int out, int close_fd)
 {
 	int pid;
 
@@ -58,7 +58,10 @@ int    exec_prgr(char *path, char *args[], char *env[], int in, int out)
 			dup2(out, STDOUT_FILENO);
 			close(out);
 		}
+		close(close_fd);
 		execve(path, args, env);
+		perror("Tried execve");
+		ft_printf("This shouldn't be printed\n");
 	}
 	return (pid);
 }
@@ -67,20 +70,26 @@ int main(int argc, char **argv)
 {
 	//char *args1[] = {"/bin/ls", "-l", "-a", NULL};
 	//char *args2[] = {"/bin/grep","d", NULL};
-	int fd[2];
+	int pipe_fd[2];
 	int pid1;
 	int pid2;
+	int file1;
+	int file2;
 	t_command cmd;
 
 	if(argc !=5)
 		return (1);
 	cmd = parse_input(argv + 1);
-	if (pipe(fd) == -1)
+	if (pipe(pipe_fd) == -1)
 		return (2);
-	pid1 = exec_prgr(cmd.cmd1, cmd.args1, NULL, STDIN_FILENO,  fd[1]);
-	pid2 = exec_prgr(cmd.cmd2, cmd.args2, NULL, fd[0], STDOUT_FILENO);
-	close(fd[0]);
-	close(fd[1]);
+	file1 = open(cmd.file1, O_RDONLY);
+	pid1 = exec_prgr(cmd.cmd1, cmd.args1, NULL, file1,  pipe_fd[1], pipe_fd[0]);
+	close(file1);
+	file2 = open(cmd.file2, O_WRONLY);
+	pid2 = exec_prgr(cmd.cmd2, cmd.args2, NULL, pipe_fd[0], file2, pipe_fd[1]);
+	close(file2);
+	close(pipe_fd[0]);
+	close(pipe_fd[1]);
 	waitpid(pid1, NULL, 0);
 	waitpid(pid2, NULL, 0);
 	write(1, "Succes\n", 7);

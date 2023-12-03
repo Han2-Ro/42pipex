@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 15:06:32 by hrother           #+#    #+#             */
-/*   Updated: 2023/11/29 16:46:52 by hrother          ###   ########.fr       */
+/*   Updated: 2023/12/03 20:25:16 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ t_command	parse_input(char **input)
 	char **cmd1;
 	char **cmd2;
 
+	//TODO: check if files are valid
 	cmd.file1 = input[0];
 	cmd.file2 = input[3];
 	cmd1 = ft_split(input[1], ' ');
