@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:28:44 by hannes            #+#    #+#             */
-/*   Updated: 2023/12/04 18:52:31 by hrother          ###   ########.fr       */
+/*   Updated: 2023/12/04 19:04:17 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,21 +43,15 @@ int    exec_prgr(char *path, char *args[], char *env[], int in, int out, int clo
 	pid = fork();
 	if(pid < 0)
 	{
-		ft_printf("smth bad happend\n");
-		perror("exec_prgr");
+		perror("fork");
+		exit(2);
 	}
 	if (pid == 0)
 	{
-		if (in != STDIN_FILENO)
-		{
-			dup2(in, STDIN_FILENO);
-			close(in);
-		}
-		if (out != STDOUT_FILENO)
-		{
-			dup2(out, STDOUT_FILENO);
-			close(out);
-		}
+		dup2(in, STDIN_FILENO);
+		close(in);
+		dup2(out, STDOUT_FILENO);
+		close(out);
 		close(close_fd);
 		if (access(path, X_OK) == 0)
 			execve(path, args, env);
@@ -66,7 +60,6 @@ int    exec_prgr(char *path, char *args[], char *env[], int in, int out, int clo
 			perror("access");
 			exit(3);
 		}
-		perror("Tried execve");
 		ft_printf("This shouldn't be printed\n");
 	}
 	return (pid);
@@ -74,11 +67,15 @@ int    exec_prgr(char *path, char *args[], char *env[], int in, int out, int clo
 
 void free_strs(char **arr)
 {
-	while(*arr)
+	int i;
+
+	i = 0;
+	while(arr[i])
 	{
-		free(*arr);
-		arr++;
+		free(arr[i]);
+		i++;
 	}
+	free(arr);
 }
 
 void	free_cmd(t_command cmd)
