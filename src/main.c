@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:28:44 by hannes            #+#    #+#             */
-/*   Updated: 2023/12/03 20:19:53 by hannes           ###   ########.fr       */
+/*   Updated: 2023/12/04 18:52:31 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,32 @@ int    exec_prgr(char *path, char *args[], char *env[], int in, int out, int clo
 			close(out);
 		}
 		close(close_fd);
-		execve(path, args, env);
+		if (access(path, X_OK) == 0)
+			execve(path, args, env);
+		else
+		{
+			perror("access");
+			exit(3);
+		}
 		perror("Tried execve");
 		ft_printf("This shouldn't be printed\n");
 	}
 	return (pid);
+}
+
+void free_strs(char **arr)
+{
+	while(*arr)
+	{
+		free(*arr);
+		arr++;
+	}
+}
+
+void	free_cmd(t_command cmd)
+{
+	free_strs(cmd.args1);
+	free_strs(cmd.args2);
 }
 
 int main(int argc, char **argv)
@@ -83,14 +104,25 @@ int main(int argc, char **argv)
 	if (pipe(pipe_fd) == -1)
 		return (2);
 	file1 = open(cmd.file1, O_RDONLY);
+	if (file1 < 0)
+	{
+		perror("file1");
+		exit(1);
+	}
 	pid1 = exec_prgr(cmd.cmd1, cmd.args1, NULL, file1,  pipe_fd[1], pipe_fd[0]);
 	close(file1);
-	file2 = open(cmd.file2, O_WRONLY);
+	file2 = open(cmd.file2, O_RDWR | O_CREAT | O_TRUNC, 0644);
+	if (file2 < 0)
+	{
+		perror("file2");
+		exit(1);
+	}
 	pid2 = exec_prgr(cmd.cmd2, cmd.args2, NULL, pipe_fd[0], file2, pipe_fd[1]);
 	close(file2);
 	close(pipe_fd[0]);
 	close(pipe_fd[1]);
 	waitpid(pid1, NULL, 0);
 	waitpid(pid2, NULL, 0);
-	write(1, "Succes\n", 7);
+	free_cmd(cmd);
+	write(1, "All processes terminated.\n", 26);
 }
