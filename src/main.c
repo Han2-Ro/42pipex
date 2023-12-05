@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:28:44 by hannes            #+#    #+#             */
-/*   Updated: 2023/12/04 19:24:22 by hrother          ###   ########.fr       */
+/*   Updated: 2023/12/05 14:05:19 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,18 @@ void	print_cmd(t_command cmd)
 	ft_printf("file2: '%s'\n", cmd.file2);
 	ft_printf("cmd1: '%s'\n", cmd.cmd1);
 	ft_printf("args1: ");
-	while(cmd.args1[i])
-	{
-		ft_printf("'%s', ", cmd.args1[i]);
-		i++;
-	}
-	ft_printf("\n");
+	print_strs(cmd.args1);
 	ft_printf("cmd2: '%s'\n", cmd.cmd2);
 	ft_printf("args2: ");
-	i = 0;
-	while(cmd.args2[i])
+	print_strs(cmd.args2);
+}
+
+void print_strs(char **strs)
+{
+	while(strs)
 	{
-		ft_printf("'%s', ", cmd.args2[i]);
-		i++;
+		ft_printf("'%s', ", strs);
+		strs++;
 	}
 	ft_printf("\n");
 }
@@ -62,7 +61,7 @@ void exit_onerror(char *msg, t_command cmd)
 	exit(1);
 }
 
-int    exec_prgr(char *path, char *args[], char *env[], int in, int out, int close_fd)
+int    exec_prgr(char *path, char *args[], char *envp[], int in, int out, int close_fd)
 {
 	int pid;
 
@@ -77,7 +76,7 @@ int    exec_prgr(char *path, char *args[], char *env[], int in, int out, int clo
 		close(out);
 		close(close_fd);
 		if (access(path, X_OK) == 0)
-			execve(path, args, env);
+			execve(path, args, envp);
 		else
 			return (-1);
 		ft_printf("This shouldn't be printed\n");
@@ -85,7 +84,7 @@ int    exec_prgr(char *path, char *args[], char *env[], int in, int out, int clo
 	return (pid);
 }
 
-int main(int argc, char **argv)
+int main(int argc, char **argv, char **envp)
 {
 	int pipe_fd[2];
 	int pid1;
@@ -102,14 +101,14 @@ int main(int argc, char **argv)
 	file1 = open(cmd.file1, O_RDONLY);
 	if (file1 < 0)
 		exit_onerror("file1", cmd);
-	pid1 = exec_prgr(cmd.cmd1, cmd.args1, NULL, file1,  pipe_fd[1], pipe_fd[0]);
+	pid1 = exec_prgr(cmd.cmd1, cmd.args1, envp, file1,  pipe_fd[1], pipe_fd[0]);
 	if (pid1 < 0)
 		exit_onerror("exec", cmd);
 	close(file1);
 	file2 = open(cmd.file2, O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (file2 < 0)
 		exit_onerror("file2", cmd);
-	pid2 = exec_prgr(cmd.cmd2, cmd.args2, NULL, pipe_fd[0], file2, pipe_fd[1]);
+	pid2 = exec_prgr(cmd.cmd2, cmd.args2, envp, pipe_fd[0], file2, pipe_fd[1]);
 	if (pid1 < 0)
 		exit_onerror("exec", cmd);
 	close(file2);
