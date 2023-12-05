@@ -6,15 +6,42 @@
 /*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:28:44 by hannes            #+#    #+#             */
-/*   Updated: 2023/12/05 14:05:19 by hannes           ###   ########.fr       */
+/*   Updated: 2023/12/05 14:23:34 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
 
+void getpath(char **envp) {
+    // Iterate through the envp array to find the PATH environment variable
+    while (*envp != NULL) {
+        // Check if the current environment variable starts with "PATH="
+        if (ft_strncmp(*envp, "PATH=", 5) == 0) {
+            // Print the value of the PATH environment variable
+            ft_printf("PATH: %s\n", *envp + 5); // +5 to skip "PATH=" in the string
+            return ; // Exit the program after finding PATH
+        }
+
+        envp++; // Move to the next environment variable
+    }
+
+    // If the loop completes without finding PATH
+    ft_printf("PATH environment variable not found.\n");
+}
+
+
+void print_strs(char **strs)
+{
+	while(strs)
+	{
+		ft_printf("'%s',\n", strs);
+		strs++;
+	}
+	ft_printf("\n");
+}
+
 void	print_cmd(t_command cmd)
 {
-	int i = 0;
 	ft_printf("file1: '%s'\n", cmd.file1);
 	ft_printf("file2: '%s'\n", cmd.file2);
 	ft_printf("cmd1: '%s'\n", cmd.cmd1);
@@ -23,16 +50,6 @@ void	print_cmd(t_command cmd)
 	ft_printf("cmd2: '%s'\n", cmd.cmd2);
 	ft_printf("args2: ");
 	print_strs(cmd.args2);
-}
-
-void print_strs(char **strs)
-{
-	while(strs)
-	{
-		ft_printf("'%s', ", strs);
-		strs++;
-	}
-	ft_printf("\n");
 }
 
 void free_strs(char **arr)
@@ -93,6 +110,7 @@ int main(int argc, char **argv, char **envp)
 	int file2;
 	t_command cmd;
 
+	getpath(envp);
 	if(argc !=5)
 		return (1);
 	cmd = parse_input(argv + 1);
