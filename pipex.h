@@ -6,7 +6,7 @@
 /*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:30:26 by hannes            #+#    #+#             */
-/*   Updated: 2023/11/30 16:39:18 by hannes           ###   ########.fr       */
+/*   Updated: 2023/12/05 19:05:20 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,15 @@
 
 typedef struct s_command
 {
-	char	*file1;
-	char	*file2;
-	char	*cmd1;
+	char	*infile;
+	char	*outfile;
+	char	*bin1;
 	char	**args1;
-	char	*cmd2;
+	char	*bin2;
 	char	**args2;
 }	t_command;
 
-t_command	parse_input(char **input);
+t_command	parse_input(char **input, char **envp);
+void		free_strs(char **arr);
 
 #endif
