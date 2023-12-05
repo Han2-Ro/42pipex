@@ -6,23 +6,24 @@
 /*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 15:06:32 by hrother           #+#    #+#             */
-/*   Updated: 2023/12/05 19:05:04 by hannes           ###   ########.fr       */
+/*   Updated: 2023/12/05 23:23:02 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
 
-char **getpath(char **envp) {
-    while (*envp != NULL) {
-        if (ft_strncmp(*envp, "PATH=", 5) == 0) {
-            return (ft_split(*envp + 5, ':'));
-        }
-        envp++;
-    }
+char	**getpath(char **envp)
+{
+	while (*envp != NULL)
+	{
+		if (ft_strncmp(*envp, "PATH=", 5) == 0)
+			return (ft_split(*envp + 5, ':'));
+		envp++;
+	}
 	return (NULL);
 }
 
-char *build_path(char *folder, char *cmd)
+char	*build_path(char *folder, char *cmd)
 {
 	char	*tmp;
 	char	*res;
@@ -33,9 +34,9 @@ char *build_path(char *folder, char *cmd)
 	return (res);
 }
 
-char *path_to_bin(char **folders, char *cmd)
+char	*path_to_bin(char **folders, char *cmd)
 {
-	char *path;
+	char	*path;
 
 	if (access(cmd, X_OK) == 0)
 		return (cmd);
@@ -52,11 +53,11 @@ char *path_to_bin(char **folders, char *cmd)
 
 t_command	parse_input(char **input, char **envp)
 {
-	t_command cmd;
-	char **cmd1;
-	char **cmd2;
-	char **path;
-	
+	t_command	cmd;
+	char		**cmd1;
+	char		**cmd2;
+	char		**path;
+
 	path = getpath(envp);
 	cmd.infile = input[0];
 	cmd.outfile = input[3];

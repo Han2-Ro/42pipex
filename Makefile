@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+         #
+#    By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/24 22:50:02 by hrother           #+#    #+#              #
-#    Updated: 2023/11/29 15:33:42 by hrother          ###   ########.fr        #
+#    Updated: 2023/12/05 23:15:57 by hannes           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ CC = cc
 CFLAGS = -g -Wall -Wextra -Werror
 SRC_DIR = src
 OBJ_DIR = objs
-SRCS = main.c parse_input.c
+SRCS = main.c pipex.c parse_input.c utils.c
 OBJS = $(patsubst %.c, $(OBJ_DIR)/%.o, $(SRCS))
 NAME = pipex
 
