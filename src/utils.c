@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 22:58:49 by hannes            #+#    #+#             */
-/*   Updated: 2023/12/06 19:44:44 by hrother          ###   ########.fr       */
+/*   Updated: 2023/12/06 20:13:16 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,5 @@ void	exit_onerror(char *msg, t_command cmd)
 {
 	free_cmd(cmd);
 	perror(msg);
-	exit(1);
+	exit(2);
 }
