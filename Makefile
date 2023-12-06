@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+         #
+#    By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/24 22:50:02 by hrother           #+#    #+#              #
-#    Updated: 2023/12/05 23:15:57 by hannes           ###   ########.fr        #
+#    Updated: 2023/12/06 19:26:47 by hrother          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,13 +30,12 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 
 clean:
 	make clean -C ./libft
-	rm -f $(OBJS)
-	rm -f $(OBJS_BONUS)
+	rm -fr $(OBJS)
+	rmdir $(OBJ_DIR)
 
 fclean: clean
 	make fclean -C ./libft
-	rm -f $(NAME)
-	rm -f $(NAME_BONUS)
+	rm $(NAME)
 
 re: fclean all
 

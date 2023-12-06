@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 15:06:32 by hrother           #+#    #+#             */
-/*   Updated: 2023/12/05 23:23:02 by hannes           ###   ########.fr       */
+/*   Updated: 2023/12/06 19:46:05 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,16 @@ t_command	parse_input(char **input, char **envp)
 	cmd.infile = input[0];
 	cmd.outfile = input[3];
 	cmd1 = ft_split(input[1], ' ');
-	cmd.bin1 = path_to_bin(path, cmd1[0]);
+	if (cmd1 != NULL)
+		cmd.bin1 = path_to_bin(path, cmd1[0]);
+	else
+		cmd.bin1 = NULL;
 	cmd.args1 = cmd1;
 	cmd2 = ft_split(input[2], ' ');
-	cmd.bin2 = path_to_bin(path, cmd2[0]);
+	if (cmd2 != NULL)
+		cmd.bin2 = path_to_bin(path, cmd2[0]);
+	else
+		cmd.bin2 = NULL;
 	cmd.args2 = cmd2;
 	free_strs(path);
 	return (cmd);

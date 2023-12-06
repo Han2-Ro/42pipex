@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 22:58:49 by hannes            #+#    #+#             */
-/*   Updated: 2023/12/05 23:00:05 by hannes           ###   ########.fr       */
+/*   Updated: 2023/12/06 19:44:44 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ void	free_strs(char **arr)
 {
 	int	i;
 
+	if (arr == NULL)
+		return ;
 	i = 0;
 	while (arr[i])
 	{
