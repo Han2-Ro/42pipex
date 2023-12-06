@@ -6,7 +6,7 @@
 #    By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/24 22:50:02 by hrother           #+#    #+#              #
-#    Updated: 2023/12/06 19:26:47 by hrother          ###   ########.fr        #
+#    Updated: 2023/12/06 22:17:16 by hrother          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,8 +30,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 
 clean:
 	make clean -C ./libft
-	rm -fr $(OBJS)
-	rmdir $(OBJ_DIR)
+	rm -fr $(OBJ_DIR)
 
 fclean: clean
 	make fclean -C ./libft
