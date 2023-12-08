@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:28:44 by hannes            #+#    #+#             */
-/*   Updated: 2023/12/06 20:17:17 by hrother          ###   ########.fr       */
+/*   Updated: 2023/12/08 23:26:56 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,6 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	}
 	cmd = parse_input(argv + 1, envp);
-	if (!cmd.bin1 || !cmd.bin2)
-	{
-		ft_putendl_fd("command not found", 2);
-		free_cmd(cmd);
-		return (2);
-	}
 	pipex(cmd, envp);
 	free_cmd(cmd);
 }

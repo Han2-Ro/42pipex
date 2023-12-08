@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+         #
+#    By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/04 12:56:10 by hrother           #+#    #+#              #
-#    Updated: 2023/11/20 21:19:43 by hrother          ###   ########.fr        #
+#    Updated: 2023/12/08 22:30:19 by hannes           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRCS = ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c \
 		get_next_line_utils.c get_next_line.c
 OBJS = $(patsubst %.c, $(OBJ_DIR)/%.o, $(SRCS))
 NAME = libft.a
+RM = rm -fr
 
 $(NAME): $(OBJS)
 	ar rcs $(NAME) $(OBJS)
@@ -36,10 +37,10 @@ $(OBJ_DIR)/%.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJS)
+	$(RM) $(OBJ_DIR)
 	
 fclean: clean
-	rm -f $(NAME)
+	$(RM) $(NAME)
 
 re: fclean all
 

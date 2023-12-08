@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 22:58:03 by hannes            #+#    #+#             */
-/*   Updated: 2023/12/06 19:58:15 by hrother          ###   ########.fr       */
+/*   Updated: 2023/12/08 23:32:56 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	exec_cmd(t_exec exec, char **envp)
 
 	pid = fork();
 	if (pid < 0)
-		return (-1);
+		return (pid);
 	if (pid == 0)
 	{
 		dup2(exec.in, STDIN_FILENO);
@@ -39,10 +39,16 @@ int	start_firstcmd(t_command cmd, int pipe_fd[2], char **envp)
 {
 	int		pid;
 	t_exec	exec;
+	char	*error_msg;
 
 	exec.in = open(cmd.infile, O_RDONLY);
 	if (exec.in < 0)
-		exit_onerror(cmd.infile, cmd);
+	{
+		error_msg = ft_strjoin("pipex: ", cmd.infile);
+		perror(error_msg);
+		free(error_msg);
+		return (-1);
+	}
 	exec.out = pipe_fd[1];
 	exec.close = pipe_fd[0];
 	exec.bin = cmd.bin1;
@@ -58,11 +64,17 @@ int	start_secondcmd(t_command cmd, int pipe_fd[2], char **envp)
 {
 	int		pid;
 	t_exec	exec;
+	char	*error_msg;
 
 	exec.in = pipe_fd[0];
 	exec.out = open(cmd.outfile, O_RDWR | O_CREAT | O_TRUNC, 0644);
-	if (exec.in < 0)
-		exit_onerror(cmd.outfile, cmd);
+	if (exec.out < 0)
+	{
+		error_msg = ft_strjoin("pipex: ", cmd.outfile);
+		perror(error_msg);
+		free(error_msg);
+		return (-1);
+	}
 	exec.close = pipe_fd[1];
 	exec.bin = cmd.bin2;
 	exec.args = cmd.args2;
@@ -81,8 +93,10 @@ void	pipex(t_command cmd, char **envp)
 
 	if (pipe(pipe_fd) == -1)
 		return ;
-	pid1 = start_firstcmd(cmd, pipe_fd, envp);
-	pid2 = start_secondcmd(cmd, pipe_fd, envp);
+	if (cmd.bin1)
+		pid1 = start_firstcmd(cmd, pipe_fd, envp);
+	if (cmd.bin1)
+		pid2 = start_secondcmd(cmd, pipe_fd, envp);
 	close(pipe_fd[0]);
 	close(pipe_fd[1]);
 	waitpid(pid1, NULL, 0);

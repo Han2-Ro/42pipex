@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+         #
+#    By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/24 22:50:02 by hrother           #+#    #+#              #
-#    Updated: 2023/12/06 22:17:16 by hrother          ###   ########.fr        #
+#    Updated: 2023/12/08 22:28:15 by hannes           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ OBJ_DIR = objs
 SRCS = main.c pipex.c parse_input.c utils.c
 OBJS = $(patsubst %.c, $(OBJ_DIR)/%.o, $(SRCS))
 NAME = pipex
+RM = rm -fr
 
 all: $(NAME) $(NAME_BONUS)
 
@@ -30,11 +31,11 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 
 clean:
 	make clean -C ./libft
-	rm -fr $(OBJ_DIR)
+	$(RM) $(OBJ_DIR)
 
 fclean: clean
 	make fclean -C ./libft
-	rm $(NAME)
+	$(RM) $(NAME)
 
 re: fclean all
 
