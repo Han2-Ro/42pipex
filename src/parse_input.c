@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 15:06:32 by hrother           #+#    #+#             */
-/*   Updated: 2023/12/11 16:47:34 by hrother          ###   ########.fr       */
+/*   Updated: 2023/12/11 17:07:46 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*path_to_bin(char **folders, char *cmd)
 	char	*path;
 
 	if (access(cmd, X_OK) == 0)
-		return (cmd);
+		return (ft_strdup(cmd));
 	while (folders && *folders)
 	{
 		path = build_path(*folders, cmd);
