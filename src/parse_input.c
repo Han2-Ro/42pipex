@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 15:06:32 by hrother           #+#    #+#             */
-/*   Updated: 2023/12/08 23:32:24 by hannes           ###   ########.fr       */
+/*   Updated: 2023/12/11 16:47:34 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*path_to_bin(char **folders, char *cmd)
 		free(path);
 		folders++;
 	}
-	ft_printf("pipex: %s: command not found\n", cmd);
+	ft_printf("%s: command not found\n", cmd);
 	return (NULL);
 }
 
