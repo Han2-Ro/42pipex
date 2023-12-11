@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+         #
+#    By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/24 22:50:02 by hrother           #+#    #+#              #
-#    Updated: 2023/12/08 22:28:15 by hannes           ###   ########.fr        #
+#    Updated: 2023/12/11 16:30:57 by hrother          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CFLAGS = -g -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 SRC_DIR = src
 OBJ_DIR = objs
 SRCS = main.c pipex.c parse_input.c utils.c
