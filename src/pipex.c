@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 22:58:03 by hannes            #+#    #+#             */
-/*   Updated: 2023/12/11 16:32:30 by hrother          ###   ########.fr       */
+/*   Updated: 2023/12/11 16:42:11 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,9 @@ void	pipex(t_command cmd, char **envp)
 	if (pipe(pipe_fd) == -1)
 		return ;
 	if (cmd.bin1 != NULL)
-		pid1 = start_firstcmd(cmd, pipe_fd, envp);
-	if (cmd.bin1 != NULL)
 		pid2 = start_secondcmd(cmd, pipe_fd, envp);
+	if (cmd.bin1 != NULL)
+		pid1 = start_firstcmd(cmd, pipe_fd, envp);
 	close(pipe_fd[0]);
 	close(pipe_fd[1]);
 	waitpid(pid1, NULL, 0);
